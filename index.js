@@ -18,8 +18,18 @@ import pinjamanRoute from "./routes/peminjamanRoute.js";
 import { verifyAdminSession } from "./middlewares/authAdmin.js";
 
 dotenv.config();
+
+
 app.use(express.json());
-app.use(cors());
+
+app.use(cors({
+    origin: 'https://perpustakaantanjungrejo-fe.vercel.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
+
+app.options(/.*/, cors());
 
 app.use(express.static(path.join(__dirname, "../fe-perpustanjungrejo")));
 
@@ -28,6 +38,7 @@ app.get("/", (req, res) => {
         path.join(__dirname, "../fe-perpustanjungrejo/pages/home.html")
     );
 });
+
 app.get("/login", (req, res) => {
     res.sendFile(
         path.join(__dirname, "../fe-perpustanjungrejo/pages/login.html")
